@@ -2,8 +2,12 @@ package com.revature.service;
 
 import com.revature.models.User;
 
-public interface UserService {
+public class UserService {
 
-	User getUser(String username);
+	public User getUser(String username) {
+		return null;
+	}
+	
+	
 
 }

@@ -1,5 +1,7 @@
 package com.revature.controller;
 
+import com.revature.exceptions.NotLoggedInException;
+
 import io.javalin.Javalin;
 
 public class RequestMapping {
@@ -13,44 +15,57 @@ public class RequestMapping {
 		//Authenticate user and create a session for the user
 		app.post("/login", ctx -> auth.authenticate(ctx));
 		
+		//Invalidate session
+		app.post("/logout", ctx -> auth.invalidateSession(ctx));
+		
+		//checking for valid sessions
+		app.before("/api/*", ctx -> {	
+			if(!auth.verifySession(ctx)) {
+				throw new NotLoggedInException();
+			}});
+		
+		//handling the exception when a session doesn't exist
+		app.exception(NotLoggedInException.class, (e,ctx) -> {
+			ctx.json(e.getMessage()).status(401);
+		});
 		
 		
 		//Get all Planets associate with the user
-		app.get("/planets", ctx -> pc.getAllPlanets(ctx));
+		app.get("api/planets", ctx -> pc.getAllPlanets(ctx));
 		
 		//Get a planet with matching name
-		app.get("/planet/{name}", ctx -> pc.getPlanetByName(ctx));
+		app.get("api/planet/{name}", ctx -> pc.getPlanetByName(ctx));
 		
 		//Get a planet with matching ID
-		app.get("/planet/{id}", ctx -> pc.getPlanetByID(ctx));
+		app.get("api/planet/{id}", ctx -> pc.getPlanetByID(ctx));
 		
 		//Get moons associated with a planet
-		app.get("/planet/{id}/moons", ctx -> pc.getPlanetMoons(ctx));
+		app.get("api/planet/{id}/moons", ctx -> mc.getPlanetMoons(ctx));
 		
 		//Get all moons
-		app.get("/moons", ctx -> mc.getAllMoons(ctx));
+		app.get("api/moons", ctx -> mc.getAllMoons(ctx));
 		
 		//Get a moon with matching name
-		app.get("/moon/{name}", ctx -> mc.getMoonByName(ctx));
+		app.get("api/moon/{name}", ctx -> mc.getMoonByName(ctx));
 		
 		//Get a moon with matching ID
-		app.get("/moon/{id}", ctx -> mc.getMoonById(ctx));
+		app.get("api/moon/{id}", ctx -> mc.getMoonById(ctx));
 		
 		
 		
-		//Create a new planet
-		app.post("/planet", ctx -> pc.createPlanet(ctx));
+		//Create a new planet, sending a JSON
+		app.post("api/planet", ctx -> pc.createPlanet(ctx));
 		
 		//Create a new moon 
-		app.post("/moon", ctx -> mc.createMoon(ctx));
+		app.post("api/moon", ctx -> mc.createMoon(ctx));
 		
 		
 		
 		//Delete a planet and all of its moons
-		app.delete("/planet/{id}", ctx -> pc.deletePlanet(ctx));
+		app.delete("api/planet/{id}", ctx -> pc.deletePlanet(ctx));
 		
 		//Delete a moon 
-		app.delete("/moon/{id}", ctx -> mc.deleteMoon(ctx));
+		app.delete("api/moon/{id}", ctx -> mc.deleteMoon(ctx));
 		
 		
 		

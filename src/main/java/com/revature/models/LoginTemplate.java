@@ -1,16 +1,13 @@
 package com.revature.models;
 
-import java.io.Serializable;
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Planet{
+public class LoginTemplate {
 	
-	private int id;
-	private String name;
+	private String username;
+	private String password;
 
 }

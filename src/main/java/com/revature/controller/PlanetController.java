@@ -4,38 +4,61 @@ import java.util.List;
 
 import com.revature.models.Moon;
 import com.revature.models.Planet;
+import com.revature.models.User;
+import com.revature.service.MoonService;
+import com.revature.service.PlanetService;
 
 import io.javalin.http.Context;
+import io.javalin.validation.Validator;
 
 public class PlanetController {
+	
+	private PlanetService pService = new PlanetService();
+	
 
-	public List<Planet> getAllPlanets(Context ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public void getAllPlanets(Context ctx) {
+		
+		ctx.json(pService.getAllPlanets()).status(200);
 	}
 
-	public Planet getPlanetByName(Context ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public void getPlanetByName(Context ctx) {
+		
+		User u = (User) ctx.sessionAttribute("user");
+		String planetName = ctx.pathParam("name");
+		
+		Planet p = pService.getPlanetByName(u.getUsername(), planetName);
+		
+		ctx.json(p).status(200);
 	}
 
-	public Planet getPlanetByID(Context ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public void getPlanetByID(Context ctx) {
+		
+		User u = (User) ctx.sessionAttribute("user");
+		int planetId = ctx.pathParamAsClass("id", Integer.class).get();
+		
+		Planet p = pService.getPlanetById(u.getUsername(), planetId);
+		
+		ctx.json(p).status(200);
 	}
 
-	public List<Moon> getPlanetMoons(Context ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void createPlanet(Context ctx) {
-		// TODO Auto-generated method stub
+		
+		Planet p = ctx.bodyAsClass(Planet.class);
+		User u = (User) ctx.sessionAttribute("user");
+		
+		Planet outGoingPlanet = pService.createPlanet(u.getUsername(),p);
+		
+		ctx.json(outGoingPlanet).status(201);
+		
 	}
 
-	public Planet deletePlanet(Context ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deletePlanet(Context ctx) {
+		
+		int planetId = ctx.pathParamAsClass("id", Integer.class).get();
+		
+		pService.deletePlanetById(planetId);
+		ctx.json("Planet successfully deleted").status(202);
 	}
 
 }

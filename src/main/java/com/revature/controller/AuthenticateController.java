@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import com.revature.models.LoginTemplate;
 import com.revature.models.User;
 import com.revature.service.UserService;
 
@@ -9,23 +10,27 @@ public class AuthenticateController {
 	
 	private UserService userService;
 
-	//don't use form params. 
-	public Object authenticate(Context ctx) {
+	
+	public void authenticate(Context ctx) {
 		
-		String username = ctx.formParam("username");
-		String password = ctx.formParam("password");
+		LoginTemplate lt = ctx.bodyAsClass(LoginTemplate.class);
 		
-		boolean success;
-		
-		User u = userService.getUser(username);
-		if(u != null) {
-			
-			
-		} else {
-			System.out.println("User does not exist!");
+		User u = userService.getUser(lt.getUsername());
+	
+		if(u != null && u.getPassword().equals(lt.getPassword())) {
+			ctx.sessionAttribute("user", u);
+			ctx.status(200);
+		}else {
+			ctx.status(400);
 		}
-		
-		return null;
+	}
+
+	public void invalidateSession(Context ctx) {
+		ctx.req().getSession().invalidate();
+	}
+	
+	public boolean verifySession(Context ctx) {	
+		return ctx.sessionAttribute("user") != null;
 	}
 
 }
