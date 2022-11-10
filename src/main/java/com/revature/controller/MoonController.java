@@ -1,30 +1,34 @@
 package com.revature.controller;
 
+import java.util.List;
+
+import com.revature.models.Moon;
+
 import io.javalin.http.Context;
 
 public class MoonController {
 
-	public Object getAllMoons(Context ctx) {
+	public List<Moon> getAllMoons(Context ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getMoonByName(Context ctx) {
+	public Moon getMoonByName(Context ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getMoonById(Context ctx) {
+	public Moon getMoonById(Context ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object createMoon(Context ctx) {
+	public void createMoon(Context ctx) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
-	public Object deleteMoon(Context ctx) {
+	public Moon deleteMoon(Context ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}

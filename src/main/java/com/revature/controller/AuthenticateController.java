@@ -9,6 +9,7 @@ public class AuthenticateController {
 	
 	private UserService userService;
 
+	//don't use form params. 
 	public Object authenticate(Context ctx) {
 		
 		String username = ctx.formParam("username");
@@ -19,9 +20,6 @@ public class AuthenticateController {
 		User u = userService.getUser(username);
 		if(u != null) {
 			
-			if(u.getPassword().equals(password)) {
-				
-			}
 			
 		} else {
 			System.out.println("User does not exist!");
