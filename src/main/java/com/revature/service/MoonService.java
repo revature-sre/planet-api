@@ -6,7 +6,7 @@ import com.revature.models.Moon;
 
 public class MoonService {
 
-	public Object getAllMoons() {
+	public List<Moon> getAllMoons() {
 		// TODO Auto-generated method stub
 		return null;
 	}
