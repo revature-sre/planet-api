@@ -28,7 +28,5 @@ public class PlanetService {
 
 	public void deletePlanetById(int planetId) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

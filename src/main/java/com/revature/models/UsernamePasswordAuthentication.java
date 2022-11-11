@@ -5,9 +5,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class LoginTemplate {
-	
-	private String username;
-	private String password;
+public class UsernamePasswordAuthentication {
 
+    private String username;
+    private String password;
 }

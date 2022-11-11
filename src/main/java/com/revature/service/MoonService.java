@@ -28,12 +28,10 @@ public class MoonService {
 
 	public void deleteMoonById(int moonId) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public List<Moon> getMoonsFromPlanet(int planetId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

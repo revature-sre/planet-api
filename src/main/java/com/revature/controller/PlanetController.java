@@ -14,7 +14,6 @@ import io.javalin.validation.Validator;
 public class PlanetController {
 	
 	private PlanetService pService = new PlanetService();
-	
 
 	public void getAllPlanets(Context ctx) {
 		
@@ -23,7 +22,7 @@ public class PlanetController {
 
 	public void getPlanetByName(Context ctx) {
 		
-		User u = (User) ctx.sessionAttribute("user");
+		User u = ctx.sessionAttribute("user");
 		String planetName = ctx.pathParam("name");
 		
 		Planet p = pService.getPlanetByName(u.getUsername(), planetName);
@@ -33,7 +32,7 @@ public class PlanetController {
 
 	public void getPlanetByID(Context ctx) {
 		
-		User u = (User) ctx.sessionAttribute("user");
+		User u = ctx.sessionAttribute("user");
 		int planetId = ctx.pathParamAsClass("id", Integer.class).get();
 		
 		Planet p = pService.getPlanetById(u.getUsername(), planetId);
@@ -44,13 +43,12 @@ public class PlanetController {
 
 	public void createPlanet(Context ctx) {
 		
-		Planet p = ctx.bodyAsClass(Planet.class);
-		User u = (User) ctx.sessionAttribute("user");
+		Planet planetToBeCreated = ctx.bodyAsClass(Planet.class);
+		User u = ctx.sessionAttribute("user");
 		
-		Planet outGoingPlanet = pService.createPlanet(u.getUsername(),p);
+		Planet createdPlanet = pService.createPlanet(u.getUsername(),planetToBeCreated);
 		
-		ctx.json(outGoingPlanet).status(201);
-		
+		ctx.json(createdPlanet).status(201);
 	}
 
 	public void deletePlanet(Context ctx) {
@@ -60,5 +58,4 @@ public class PlanetController {
 		pService.deletePlanetById(planetId);
 		ctx.json("Planet successfully deleted").status(202);
 	}
-
 }
